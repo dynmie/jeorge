@@ -26,9 +26,9 @@ public class MyModule extends Module {
     }
 }
 ```
-Create a service class and annotate the fields you want to inject into.
+Create a class and annotate the fields you want to inject into.
 ```java
-public class MyService {
+public class MyClass {
     @Inject
     private Animal animal;
 
@@ -41,7 +41,7 @@ public class MyService {
 Create an Injector and inject into your instance.
 ```java
 Injector injector = Jeorge.createInjector(new MyModule());
-MyService service = injector.createInstance(MyService.class);
-Animal animal = service.getAnimal();
+MyClass clazz = injector.createInstance(MyClass.class);
+Animal animal = clazz.getAnimal();
 animal.speak(); // prints Meow!
 ```
