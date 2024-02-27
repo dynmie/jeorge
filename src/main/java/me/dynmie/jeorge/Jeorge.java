@@ -9,11 +9,11 @@ import java.util.Arrays;
  */
 public interface Jeorge {
 
-    static Injector createInjector(Module... modules) {
-        return createInjector(Arrays.asList(modules));
+    static Injector createInjector(Binder... binders) {
+        return createInjector(Arrays.asList(binders));
     }
 
-    static Injector createInjector(Iterable<? extends Module> modules) {
+    static Injector createInjector(Iterable<? extends Binder> modules) {
         return new InternalInjectorBuilder().modules(modules).build();
     }
 

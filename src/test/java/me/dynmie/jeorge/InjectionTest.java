@@ -9,7 +9,7 @@ public class InjectionTest {
 
     @Test
     public void constructorInjectionTest() {
-        Injector injector = Jeorge.createInjector(new TestModule());
+        Injector injector = Jeorge.createInjector(new TestBinder());
 
         FieldTestService field = injector.createInstance(FieldTestService.class);
         field.getAnimal().speak();
@@ -17,7 +17,7 @@ public class InjectionTest {
 
     @Test
     public void fieldInjectionByClassTest() {
-        Injector injector = Jeorge.createInjector(new TestModule());
+        Injector injector = Jeorge.createInjector(new TestBinder());
 
         FieldTestService field = injector.createInstance(FieldTestService.class);
         field.getAnimal().speak();
@@ -25,7 +25,15 @@ public class InjectionTest {
 
     @Test
     public void fieldInjectionByInstanceTest() {
-        Injector injector = Jeorge.createInjector(new TestModule());
+        Injector injector = Jeorge.createInjector(new TestBinder());
+
+        FieldTestService field = injector.inject(new FieldTestService());
+        field.getAnimal().speak();
+    }
+
+    @Test
+    public void fieldInjectionByInstanceWithInstanceBinderTest() {
+        Injector injector = Jeorge.createInjector(new TestInstanceBinder());
 
         FieldTestService field = injector.inject(new FieldTestService());
         field.getAnimal().speak();

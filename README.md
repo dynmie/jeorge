@@ -12,7 +12,7 @@ Add the Maven dependency to your `pom.xml` file.
 <dependency>
     <groupId>com.github.dynmie</groupId>
     <artifactId>jeorge</artifactId>
-    <version>1.0</version>
+    <version>1.1.0</version>
 </dependency>
 ```
 
@@ -22,7 +22,7 @@ Create a Module and add binds to it.
 public class MyModule extends Module {
     @Override
     public void configure() {
-        bind(Animal.class).to(Cat.class);
+        bind(Animal.class, Cat.class);
     }
 }
 ```

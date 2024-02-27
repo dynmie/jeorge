@@ -3,9 +3,9 @@ package me.dynmie.jeorge;
 /**
  * @author dynmie
  */
-public class TestModule extends Module {
+public class TestInstanceBinder extends Binder {
     @Override
     public void configure() {
-        bind(Animal.class).to(Cat.class);
+        bind(Animal.class, new Cat());
     }
 }

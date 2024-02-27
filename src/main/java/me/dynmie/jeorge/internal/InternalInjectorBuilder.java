@@ -1,7 +1,6 @@
 package me.dynmie.jeorge.internal;
 
-import me.dynmie.jeorge.Module;
-import me.dynmie.jeorge.bindings.BindingBuilder;
+import me.dynmie.jeorge.Binder;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,22 +11,28 @@ import java.util.Map;
  */
 public class InternalInjectorBuilder {
 
-    private Iterable<? extends Module> modules = new ArrayList<>();
+    private Iterable<? extends Binder> modules = new ArrayList<>();
 
-    public InternalInjectorBuilder modules(Iterable<? extends Module> modules) {
+    public InternalInjectorBuilder modules(Iterable<? extends Binder> modules) {
         this.modules = modules;
         return this;
     }
 
     public InternalInjector build() {
         Map<Class<?>, Class<?>> binds = new HashMap<>();
-        for (Module module : modules) {
-            for (BindingBuilder<?> binding : module.getBindings()) {
-                binds.put(binding.getKey(), binding.getValue());
+        Map<Class<?>, Object> dependencies = new HashMap<>();
+        for (Binder binder : modules) {
+            for (Map.Entry<Class<?>, Object> entry : binder.getBindings().entrySet()) {
+                Object value = entry.getValue();
+                if (value instanceof Class<?>) {
+                    binds.put(entry.getKey(), (Class<?>) value);
+                    continue;
+                }
+                dependencies.put(entry.getKey(), entry.getValue());
             }
         }
 
-        return new InternalInjector(binds, new HashMap<>());
+        return new InternalInjector(binds, dependencies);
     }
 
 }
