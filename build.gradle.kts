@@ -1,5 +1,6 @@
 plugins {
     id("java")
+    id("maven-publish")
 }
 
 group = "me.dynmie.jeorge"
@@ -16,4 +17,15 @@ dependencies {
 
 tasks.test {
     useJUnitPlatform()
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("mavenJava") {
+            groupId = "me.dynmie.jeorge"
+            artifactId = "jeorge"
+            version = version
+            from(components["java"])
+        }
+    }
 }
