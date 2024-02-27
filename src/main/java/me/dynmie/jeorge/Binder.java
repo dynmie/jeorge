@@ -1,5 +1,7 @@
 package me.dynmie.jeorge;
 
+import me.dynmie.jeorge.internal.CannotBindException;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,11 +14,14 @@ public abstract class Binder {
 
     public abstract void configure();
 
-    public void bind(Class<?> from, Class<?> to) {
+    public <T> void bind(Class<T> from, Class<? extends T> to) {
         binds.put(from, to);
     }
 
     public void bind(Class<?> from, Object to) {
+        if (!from.isInstance(to)) {
+            throw new CannotBindException("instance not of type " + from.getName());
+        }
         binds.put(from, to);
     }
 
