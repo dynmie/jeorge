@@ -13,8 +13,8 @@ public interface Jeorge {
         return createInjector(Arrays.asList(binders));
     }
 
-    static Injector createInjector(Iterable<? extends Binder> modules) {
-        return new InternalInjectorBuilder().modules(modules).build();
+    static Injector createInjector(Iterable<? extends Binder> binders) {
+        return new InternalInjectorBuilder().binders(binders).build();
     }
 
 }

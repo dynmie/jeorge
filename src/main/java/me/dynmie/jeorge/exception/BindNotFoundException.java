@@ -1,4 +1,4 @@
-package me.dynmie.jeorge.internal;
+package me.dynmie.jeorge.exception;
 
 /**
  * @author dynmie

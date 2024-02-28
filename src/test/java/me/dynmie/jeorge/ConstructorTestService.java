@@ -5,6 +5,9 @@ package me.dynmie.jeorge;
  */
 public class ConstructorTestService {
 
+    @Inject
+    private Animal injectedFieldAnimal;
+
     private final Animal animal;
 
     @Inject
@@ -15,4 +18,9 @@ public class ConstructorTestService {
     public Animal getAnimal() {
         return animal;
     }
+
+    public Animal getInjectedFieldAnimal() {
+        return injectedFieldAnimal;
+    }
+
 }
