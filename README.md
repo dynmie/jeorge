@@ -19,7 +19,7 @@ Add the Maven dependency to your `pom.xml` file.
 ## Registering a dependency
 Create a Module and add binds to it.
 ```java
-public class MyModule extends Module {
+public class MyBinder extends Binder {
     @Override
     public void configure() {
         bind(Animal.class, Cat.class);
@@ -40,8 +40,8 @@ public class MyClass {
 ```
 Create an Injector and inject into your instance.
 ```java
-Injector injector = Jeorge.createInjector(new MyModule());
-MyClass clazz = injector.createInstance(MyClass.class);
-Animal animal = clazz.getAnimal();
+Injector injector = Jeorge.createInjector(new MyBinder());
+MyClass instance = injector.createInstance(MyClass.class);
+Animal animal = instance.getAnimal();
 animal.speak(); // prints Meow!
 ```
