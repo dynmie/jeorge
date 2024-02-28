@@ -64,6 +64,10 @@ public class InternalInjector implements Injector {
 
     @Override
     public <T> T getDependency(Class<T> clazz) {
+        if (clazz == Injector.class) {
+            return clazz.cast(this);
+        }
+
         Provider<?> provider = providers.get(clazz);
         if (provider == null) {
             throw new BindNotFoundException("bind for " + clazz.getName() + " was not found");
