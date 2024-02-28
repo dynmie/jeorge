@@ -9,6 +9,7 @@ import me.dynmie.jeorge.provider.Provider;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Modifier;
 import java.util.Map;
 
 /**
@@ -23,7 +24,7 @@ public class InternalInjector implements Injector {
     }
 
     @Override
-    public <T> T inject(T instance) {
+    public void injectMembers(Object instance) {
         for (Field field : instance.getClass().getDeclaredFields()) {
             if (!field.isAnnotationPresent(Inject.class)) {
                 continue;
@@ -38,8 +39,27 @@ public class InternalInjector implements Injector {
                 throw new InjectionFailedException(e);
             }
         }
+    }
 
-        return instance;
+    @Override
+    public void injectStaticMembers(Class<?> clazz) {
+        for (Field field : clazz.getDeclaredFields()) {
+            if (!Modifier.isStatic(field.getModifiers())) {
+                continue;
+            }
+            if (!field.isAnnotationPresent(Inject.class)) {
+                continue;
+            }
+
+            boolean accessible = field.isAccessible();
+            try {
+                field.setAccessible(true);
+                field.set(null, getDependency(field.getType()));
+                field.setAccessible(accessible);
+            } catch (IllegalAccessException | IllegalArgumentException e) {
+                throw new InjectionFailedException(e);
+            }
+        }
     }
 
     @Override
@@ -68,7 +88,8 @@ public class InternalInjector implements Injector {
             } catch (InstantiationException | IllegalAccessException e) {
                 throw new InjectionFailedException("instantiation failed for " + clazz.getName(), e);
             }
-            return inject(t);
+            injectMembers(t);
+            return t;
         }
 
         Object[] params = new Object[constructor.getParameterTypes().length];
@@ -84,7 +105,8 @@ public class InternalInjector implements Injector {
             throw new InjectionFailedException(e);
         }
 
-        return inject(t);
+        injectMembers(t);
+        return t;
     }
 
 }

@@ -5,7 +5,9 @@ package me.dynmie.jeorge;
  */
 public interface Injector {
 
-    <T> T inject(T instance);
+    void injectMembers(Object instance);
+
+    void injectStaticMembers(Class<?> clazz);
 
     <T> T getDependency(Class<T> clazz);
 

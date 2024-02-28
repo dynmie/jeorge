@@ -29,7 +29,8 @@ public class InjectionTest {
     public void fieldInjectionByInstanceTest() {
         Injector injector = Jeorge.createInjector(new TestBinder());
 
-        FieldTestService service = injector.inject(new FieldTestService());
+        FieldTestService service = new FieldTestService();
+        injector.injectMembers(service);
         service.getAnimal().speak();
     }
 
@@ -37,8 +38,17 @@ public class InjectionTest {
     public void fieldInjectionByInstanceWithInstanceBinderTest() {
         Injector injector = Jeorge.createInjector(new TestInstanceBinder());
 
-        FieldTestService service = injector.inject(new FieldTestService());
+        FieldTestService service = new FieldTestService();
+        injector.injectMembers(service);
         service.getAnimal().speak();
+    }
+
+    @Test
+    public void staticFieldInjectionTest() {
+        Injector injector = Jeorge.createInjector(new TestInstanceBinder());
+        injector.injectStaticMembers(StaticFieldTestService.class);
+
+        StaticFieldTestService.getInjectedFieldAnimal().speak();
     }
 
 }
